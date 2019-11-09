@@ -1,0 +1,17 @@
+{
+  "name": "api_nodejs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "debug": "nodemon server/server.js"
+  },
+  "repository": "git@github.com-huyenph:huyenph/api_nodejs.git",
+  "author": "Huyen Pham <huyen.phamhoang96@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.7.9",
+    "nodemon": "^1.19.4"
+  }
+}
