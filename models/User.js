@@ -1,31 +1,46 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const Joi = require("@hapi/joi");
 
 const userSchema = new mongoose.Schema({
   name: {
-    type: String,
-    required: [true, "Name is required"],
-    minlength: [8, "Name should at least 8 characters"],
-    maxlength: [16, "Name should max 16 characters"]
+    type: String
   },
   email: {
-    type: String,
-    required: [true, "Email is required"],
-    validate(value) {
-      if (!validator.isEmail(value)) {
-        throw new Error("Email is invalid!");
-      }
-    }
+    type: String
   },
   password: {
-    type: String,
-    required: [true, "Password is required"]
+    type: String
   },
   avatar: {
     type: String
   }
 });
 
+const createUserSchema = Joi.object({
+  name: Joi.string()
+    .required()
+    .min(8)
+    .max(16),
+  email: Joi.string()
+    .required()
+    .email(),
+  password: Joi.string().required(),
+  avatar: Joi.string()
+    .required()
+    .uri()
+});
+
+const updateUserSchema = Joi.object({
+  name: Joi.string()
+    .min(8)
+    .max(16),
+  email: Joi.string()
+    .email(),
+  avatar: Joi.string()
+    .uri()
+});
+
 const User = mongoose.model("User", userSchema);
 
-module.exports = User;
+module.exports = { User, createUserSchema, updateUserSchema };
