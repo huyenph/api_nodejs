@@ -18,4 +18,7 @@ router.get("/:id", userController.getUserById);
 //endpoint : /users/id DELETE
 router.delete("/:id", userController.deleteUserById);
 
+//endpoint : /users/login
+router.post("/login", userController.login);
+
 module.exports = router;

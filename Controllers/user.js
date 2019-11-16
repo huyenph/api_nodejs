@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const { User, createUserSchema, updateUserSchema } = require("../models/User");
+const jwt = require("jsonwebtoken");
 
 const createUser = async (req, res) => {
   try {
@@ -94,10 +95,48 @@ const updateUserById = async (req, res) => {
   }
 };
 
+const login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const existedUser = await User.findOne({ email });
+    if (!existedUser) {
+      return res
+        .status(401)
+        .send({ message: "Email or password is incorrect" });
+    }
+    const isCorrectPassword = await bcrypt.compare(
+      password,
+      existedUser.password
+    );
+    if (!isCorrectPassword) {
+      return res
+        .status(401)
+        .send({ message: "Email or password is incorrect" });
+    }
+
+    //create token
+    const token = signToken({
+      userId: existedUser._id,
+      email: existedUser.email
+    });
+    res.status(200).send({ token });
+  } catch (e) {
+    res.status(500).send();
+  }
+};
+
+const signToken = payload => {
+  const token = jwt.sign(payload, "secret_key", {
+    expiresIn: "1h"
+  });
+  return token;
+};
+
 module.exports = {
   createUser,
   getUsers,
   getUserById,
   deleteUserById,
-  updateUserById
+  updateUserById,
+  login
 };

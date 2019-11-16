@@ -28,6 +28,7 @@ const createUserSchema = Joi.object({
   password: Joi.string().required(),
   avatar: Joi.string()
     .required()
+    .uri()
 });
 
 const updateUserSchema = Joi.object({
