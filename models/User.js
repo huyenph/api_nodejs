@@ -14,6 +14,9 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String
+  },
+  role: {
+    type: [String]
   }
 });
 
@@ -27,18 +30,16 @@ const createUserSchema = Joi.object({
     .email(),
   password: Joi.string().required(),
   avatar: Joi.string()
-    .required()
-    .uri()
+    .required(),
+  role: Joi.array().required()
 });
 
 const updateUserSchema = Joi.object({
   name: Joi.string()
     .min(8)
     .max(16),
-  email: Joi.string()
-    .email(),
-  avatar: Joi.string()
-    .uri()
+  email: Joi.string().email(),
+  avatar: Joi.string().uri()
 });
 
 const User = mongoose.model("User", userSchema);

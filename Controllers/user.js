@@ -12,14 +12,15 @@ const createUser = async (req, res) => {
       });
     }
 
-    const { name, email, password, avatar } = req.body;
+    const { name, email, password, avatar, role } = req.body;
     //hash password
     const hashPassword = await bcrypt.hash(password, 12);
     const user = new User({
       name,
       email,
       password: hashPassword,
-      avatar
+      avatar,
+      role
     });
 
     const newUser = await user.save();

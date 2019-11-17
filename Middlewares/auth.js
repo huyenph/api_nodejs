@@ -7,20 +7,38 @@ const authenticate = async (req, res, next) => {
     return res.status(400).send({ message: "No token provider" });
   }
   const token = tokenStr.split(" ")[1];
-  console.log(token);
   try {
     const decodeToken = jwt.verify(token, "secret_key");
-    console.log(decodeToken);
-    const existedUser = await User.findOne(decodeToken.userId);
+    const existedUser = await User.findById(decodeToken.userId);
     if (!existedUser) {
       return res.status(401).send({ message: "Permission deny" });
     }
     req.userId = existedUser._id;
-    
+    req.userEmail = existedUser.email;
+    req.userRole = existedUser.role;
     next();
   } catch (e) {
     return res.status(401).send({ message: "Permission deny", data: e });
   }
 };
 
-module.exports = { authenticate };
+const authorize = accessRole => {
+  return async (req, res, next) => {
+    try {
+      let canAccess = false;
+      req.userRole.forEach(item => {
+        if (accessRole.includes(item)) {
+          canAccess = true;
+        }
+      });
+      if (!canAccess) {
+        return res.status(401).send({ message: "Permission deny" });
+      }
+      next();
+    } catch (e) {
+      return res.status(500).send();
+    }
+  };
+};
+
+module.exports = { authenticate, authorize };
