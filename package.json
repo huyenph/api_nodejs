@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
-    "debug": "nodemon app.js"
+    "debug": "nodemon app.js",
+    "start:development": "set NODE_ENV=development& node app.js"
   },
   "repository": "git@github.com-huyenph:huyenph/api_nodejs.git",
   "author": "Huyen Pham <huyen.phamhoang96@gmail.com>",
@@ -13,6 +14,7 @@
     "@hapi/joi": "^16.1.7",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.9",
