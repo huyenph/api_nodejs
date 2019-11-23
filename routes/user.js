@@ -5,7 +5,7 @@ const { authenticate, authorize } = require("../Middlewares/auth");
 const router = express.Router();
 
 //endpoint : /users POST
-router.post("/", authenticate, authorize(["admin"]), userController.createUser);
+router.post("/", userController.createUser);
 
 //endpoint : /users PATCH
 router.patch("/:id", authenticate, userController.updateUserById);

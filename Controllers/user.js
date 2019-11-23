@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs");
-const { User, createUserSchema, updateUserSchema } = require("../models/User");
+const { User, createUserSchema, updateUserSchema } = require("../models/user");
 const jwt = require("jsonwebtoken");
 
 const createUser = async (req, res) => {
@@ -127,8 +127,8 @@ const login = async (req, res) => {
 };
 
 const signToken = payload => {
-  const token = jwt.sign(payload, "secret_key", {
-    expiresIn: "1h"
+  const token = jwt.sign(payload, process.env.JWT_SECRET_KEY_DEVELOPMENT, {
+    expiresIn: pprocess.env.JWT_EXPIRED_DEVELOPMENT
   });
   return token;
 };

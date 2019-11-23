@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { User } = require("../models/User");
+const { User } = require("../models/user");
 
 const authenticate = async (req, res, next) => {
   const tokenStr = req.get("Authorization");
@@ -8,7 +8,7 @@ const authenticate = async (req, res, next) => {
   }
   const token = tokenStr.split(" ")[1];
   try {
-    const decodeToken = jwt.verify(token, "secret_key");
+    const decodeToken = jwt.verify(token, process.env.JWT_SECRET_KEY_DEVELOPMENT);
     const existedUser = await User.findById(decodeToken.userId);
     if (!existedUser) {
       return res.status(401).send({ message: "Permission deny" });

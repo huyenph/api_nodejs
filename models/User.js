@@ -29,8 +29,7 @@ const createUserSchema = Joi.object({
     .required()
     .email(),
   password: Joi.string().required(),
-  avatar: Joi.string()
-    .required(),
+  avatar: Joi.string(),
   role: Joi.array().required()
 });
 
